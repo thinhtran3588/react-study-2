@@ -23,6 +23,7 @@ const searchStudents = async (req, res) => {
     where,
     offset: query.pageIndex * query.itemsPerPage,
     limit: query.itemsPerPage,
+    order: [["name", "ASC"]],
   });
   const total = await Student.count({
     where,
@@ -30,14 +31,14 @@ const searchStudents = async (req, res) => {
   console.log(result, total);
 
   res.status(200).json({
-    data: [],
+    data: result,
     total,
   });
 };
 
 const createStudent = async (req, res) => {
   const newStudent = JSON.parse(req.body);
-  await User.create({
+  await Student.create({
     name: newStudent.name,
     age: newStudent.age,
     gender: newStudent.gender,

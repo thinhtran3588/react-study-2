@@ -1,9 +1,21 @@
 import { Sequelize, DataTypes } from "sequelize";
 
-const sequelize = new Sequelize(process.env);
+const sequelize = new Sequelize({
+  dialect: "postgres",
+  host: "dpg-cji6rjfjbvhs73aaf09g-a.singapore-postgres.render.com",
+  username: "tqt",
+  password: "OYSj9d6h7QASiRHIW08re8607bZ6l9G8",
+  database: "tqtauthdev",
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
+});
 
 export const Student = sequelize.define(
-  "Student",
+  "student",
   {
     // Model attributes are defined here
     name: {
@@ -11,7 +23,7 @@ export const Student = sequelize.define(
       allowNull: false,
     },
     age: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     gender: {
@@ -24,6 +36,7 @@ export const Student = sequelize.define(
   }
 );
 
-(async () => {
-  await sequelize.sync({ force: true });
-})();
+// (async () => {
+//   console.log("sync");
+//   await sequelize.sync({ force: true });
+// })();
