@@ -1,3 +1,8 @@
+1. Dựng API ở backend đề hứng và xử lí dữ liệu
+từ client
+2. Từ client, gửi request lên backend để lấy dữ liệu, cập nhật dữ liệu
+3. Kết nối API với cơ sở dữ liệu
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
