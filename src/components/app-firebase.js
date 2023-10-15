@@ -1,12 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Provider, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { ThemeContext } from "@app/app/contexts/theme.context";
-import { AppButton } from "./app-button";
-import { store } from "@app/store/store";
 
 export const AppFirebase = ({ children }) => {
   const dispatch = useDispatch();

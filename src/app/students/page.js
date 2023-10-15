@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { ThemeContext } from "../contexts/theme.context";
 import { studentBackendService } from "@app/services/student-backend.service";
+import { Alert, Snackbar } from "@mui/material";
 export default function Students() {
   const theme = useContext(ThemeContext);
   const [searchResult, setSearchResult] = useState({
@@ -22,6 +23,23 @@ export default function Students() {
     itemsPerPage: 5,
     pageIndex: 0,
   });
+
+  const [alertState, setAlert] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setAlert({
+      open: false,
+      message: "",
+      severity: "success",
+    });
+  };
 
   const router = useRouter();
   const createNew = () => {
@@ -43,11 +61,19 @@ export default function Students() {
   };
 
   const searchStudents = async () => {
-    const result = await studentBackendService.findStudents(
-      filters,
-      pagination
-    );
-    setSearchResult(result);
+    try {
+      const result = await studentBackendService.findStudents(
+        filters,
+        pagination
+      );
+      setSearchResult(result);
+    } catch (error) {
+      setAlert({
+        open: true,
+        message: error.message,
+        severity: "error",
+      });
+    }
   };
 
   const confirmDelete = (student) => {
@@ -179,7 +205,21 @@ export default function Students() {
           />
         </div>
       </div>
-      <div></div>
+      {alertState.open && (
+        <Snackbar
+          open={alertState.open}
+          autoHideDuration={3000}
+          onClose={handleClose}
+        >
+          <Alert
+            onClose={handleClose}
+            severity={alertState.severity}
+            sx={{ width: "100%" }}
+          >
+            {alertState.message}
+          </Alert>
+        </Snackbar>
+      )}
     </>
   );
 }

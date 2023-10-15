@@ -1,4 +1,5 @@
-import { Student } from "@app/database/sequelize";
+import { Student } from "@app/server/database/sequelize";
+import { validateRequest } from "@app/server/firebase/firebase";
 
 const getStudent = async (req, res) => {
   const id = +req.query.id;
@@ -46,6 +47,13 @@ const remove = async (req, res) => {
 };
 
 export default async function handler(req, res) {
+  const user = await validateRequest(req);
+  if (!user) {
+    res.status(401).json({
+      message: "Unauthorized",
+    });
+    return;
+  }
   if (req.method === "PATCH") {
     return update(req, res);
   } else if (req.method === "DELETE") {
